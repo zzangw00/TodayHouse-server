@@ -10,12 +10,13 @@ module.exports = function (app) {
     app.use(passport.initialize());
     app.use(passport.session());
     passport.use(
+        'google',
         new GoogleStrategy(
             {
                 clientID:
                     '645142724394-j3nnkvs6i4oq1nod7fjifnohprdo611j.apps.googleusercontent.com',
                 clientSecret: 'CR6KP_IopffUMJltlvPqmLZL',
-                callbackURL: 'http://localhost:3000/auth/google/callback',
+                callbackURL: '/auth/google/callback',
             },
             function (accessToken, refreshToken, profile, done) {
                 result = {
@@ -43,6 +44,7 @@ module.exports = function (app) {
                     profile: profile,
                 };
                 console.log('KakaoStrategy', result);
+                return done;
             },
         ),
     );
@@ -80,7 +82,7 @@ module.exports = function (app) {
     app.get('/', user.Login);
     app.get('/auth', user.googleLogin);
     app.get(
-        '/auth/google',
+        '/auth/google/callback',
         passport.authenticate('google', {
             scope: ['https://www.googleapis.com/auth/plus.login', 'email'],
         }),
