@@ -133,7 +133,7 @@ async function pictureScrapUser(connection, pictureId) {
   and l.status = 1
   
 `;
-    const [userRows] = await connection.query(scrapUserQuery, userId);
+    const [userRows] = await connection.query(scrapUserQuery, pictureId);
     return userRows;
 }
 
